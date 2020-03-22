@@ -1,0 +1,29 @@
+{
+  "name": "social-dm-tools",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "concurrently -k \"yarn run start:bsb\" \"yarn run start:webpack\"",
+    "start:bsb": "bsb -clean-world -make-world -w",
+    "start:webpack": "webpack-dev-server --port 3000",
+    "build": "concurrently -k \"yarn run build:webpack\"",
+    "build:webpack": "NODE_ENV=production webpack",
+    "format": "refmt src/*.re"
+  },
+  "keywords": [
+    "BuckleScript",
+    "ReasonReact",
+    "reason-react"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1",
+    "reason-react": ">=0.7.0"
+  },
+  "devDependencies": {
+    "bs-platform": "^7.0.1",
+    "concurrently": "^5.1.0",
+    "moduleserve": "^0.9.0"
+  }
+}
