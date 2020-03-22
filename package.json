@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "bs-platform": "^7.0.1",
-    "concurrently": "^5.1.0"
+    "concurrently": "^5.1.0",
+    "webpack": "^4.42.0"
   }
 }
