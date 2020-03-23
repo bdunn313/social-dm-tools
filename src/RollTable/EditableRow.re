@@ -5,32 +5,23 @@ type state =
 module RowInput = {
   [@react.component]
   let make = (~onEdit, ~onBlur, ~title) => {
-    let inputEl = React.useRef(Js.Nullable.null);
     let (editedVal, setEditedVal) = React.useState(() => title);
-    React.useEffect(() => {
-      inputEl
-      ->React.Ref.current
-      ->Js.Nullable.toOption
-      ->Belt.Option.flatMap(Webapi.Dom.Element.asHtmlElement)
-      ->Belt.Option.map(Webapi.Dom.HtmlElement.focus)
-      ->ignore; // FIXME: I'm doing something wrong here.
-      None;
-    });
-
     let handleChange = newVal => setEditedVal(_ => newVal);
-
+    let resetInput = () => setEditedVal(_ => title);
     <input
-      ref={ReactDOMRe.Ref.domRef(inputEl)}
+      autoFocus=true
       type_="text"
       onChange={e => e->ReactEvent.Form.target##value->handleChange}
       onBlur={_ => onBlur(editedVal)}
       onKeyUp={e =>
         switch (e->ReactEvent.Keyboard.key->String.lowercase_ascii) {
-        | "enter" => onEdit(editedVal)
+        | "enter" =>
+          onEdit(editedVal);
+          resetInput();
         | _ => ()
         }
       }
-      values=editedVal
+      value=editedVal
     />;
   };
 };

@@ -3,34 +3,27 @@
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var $$String = require("bs-platform/lib/js/string.js");
-var Belt_Option = require("bs-platform/lib/js/belt_Option.js");
-var Caml_option = require("bs-platform/lib/js/caml_option.js");
-var Webapi__Dom__Element = require("bs-webapi/src/Webapi/Webapi__Dom/Webapi__Dom__Element.js");
 
 function EditableRow$RowInput(Props) {
   var onEdit = Props.onEdit;
   var onBlur = Props.onBlur;
   var title = Props.title;
-  var inputEl = React.useRef(null);
   var match = React.useState((function () {
           return title;
         }));
   var setEditedVal = match[1];
   var editedVal = match[0];
-  React.useEffect((function () {
-          Belt_Option.map(Belt_Option.flatMap(Caml_option.nullable_to_opt(inputEl.current), Webapi__Dom__Element.asHtmlElement), (function (prim) {
-                  prim.focus();
-                  return /* () */0;
-                }));
-          return ;
-        }));
   return React.createElement("input", {
-              ref: inputEl,
+              autoFocus: true,
               type: "text",
+              value: editedVal,
               onKeyUp: (function (e) {
                   var match = $$String.lowercase_ascii(e.key);
                   if (match === "enter") {
-                    return Curry._1(onEdit, editedVal);
+                    Curry._1(onEdit, editedVal);
+                    return Curry._1(setEditedVal, (function (param) {
+                                  return title;
+                                }));
                   } else {
                     return /* () */0;
                   }
@@ -43,8 +36,7 @@ function EditableRow$RowInput(Props) {
                   return Curry._1(setEditedVal, (function (param) {
                                 return newVal;
                               }));
-                }),
-              values: editedVal
+                })
             });
 }
 
