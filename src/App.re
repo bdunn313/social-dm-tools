@@ -1,2 +1,2 @@
 [@react.component]
-let make = () => <h1> {"HelloWorld!" |> ReasonReact.string} </h1>;
+let make = () => <h1> {"Social DM Tools!" |> ReasonReact.string} </h1>;
