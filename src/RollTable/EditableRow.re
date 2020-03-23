@@ -4,7 +4,7 @@ type state =
 
 module RowInput = {
   [@react.component]
-  let make = (~onEdit, ~title) => {
+  let make = (~onEdit, ~onBlur, ~title) => {
     let inputEl = React.useRef(Js.Nullable.null);
     let (editedVal, setEditedVal) = React.useState(() => title);
     React.useEffect(() => {
@@ -18,16 +18,15 @@ module RowInput = {
     });
 
     let handleChange = newVal => setEditedVal(_ => newVal);
-    let handleEdit = _ => onEdit(editedVal);
 
     <input
       ref={ReactDOMRe.Ref.domRef(inputEl)}
       type_="text"
       onChange={e => e->ReactEvent.Form.target##value->handleChange}
-      onBlur=handleEdit
+      onBlur={_ => onBlur(editedVal)}
       onKeyUp={e =>
         switch (e->ReactEvent.Keyboard.key->String.lowercase_ascii) {
-        | "enter" => handleEdit(e)
+        | "enter" => onEdit(editedVal)
         | _ => ()
         }
       }
@@ -48,6 +47,6 @@ let make = (~title="", ~onSave) => {
     <li onDoubleClick={_ => setState(_ => Editing)}>
       {title |> ReasonReact.string}
     </li>
-  | Editing => <RowInput title onEdit />
+  | Editing => <RowInput title onEdit onBlur=onEdit />
   };
 };

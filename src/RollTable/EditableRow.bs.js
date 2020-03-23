@@ -9,6 +9,7 @@ var Webapi__Dom__Element = require("bs-webapi/src/Webapi/Webapi__Dom/Webapi__Dom
 
 function EditableRow$RowInput(Props) {
   var onEdit = Props.onEdit;
+  var onBlur = Props.onBlur;
   var title = Props.title;
   var inputEl = React.useRef(null);
   var match = React.useState((function () {
@@ -23,9 +24,6 @@ function EditableRow$RowInput(Props) {
                 }));
           return ;
         }));
-  var handleEdit = function (param) {
-    return Curry._1(onEdit, editedVal);
-  };
   return React.createElement("input", {
               ref: inputEl,
               type: "text",
@@ -37,7 +35,9 @@ function EditableRow$RowInput(Props) {
                     return /* () */0;
                   }
                 }),
-              onBlur: handleEdit,
+              onBlur: (function (param) {
+                  return Curry._1(onBlur, editedVal);
+                }),
               onChange: (function (e) {
                   var newVal = e.target.value;
                   return Curry._1(setEditedVal, (function (param) {
@@ -69,6 +69,7 @@ function EditableRow(Props) {
   if (match[0]) {
     return React.createElement(EditableRow$RowInput, {
                 onEdit: onEdit,
+                onBlur: onEdit,
                 title: title
               });
   } else {

@@ -1,8 +1,18 @@
-type item = {
-  id: int,
-  title: string,
+module Item = {
+  type t = {
+    id: int,
+    title: string,
+  };
+
+  let getMaxId = (items: array(t)) =>
+    items->Belt.Array.reduce(0, (curr, item) =>
+      item.id > curr ? item.id : curr
+    );
+
+  let getNextId = items => getMaxId(items) + 1;
 };
-let testItems = [|
+
+let testItems: array(Item.t) = [|
   {id: 1, title: "One"},
   {id: 2, title: "Two"},
   {id: 3, title: "Three"},
@@ -13,6 +23,10 @@ let testItems = [|
 [@react.component]
 let make = () => {
   let (items, setItems) = React.useState(() => testItems);
+  let create = title =>
+    setItems(prev =>
+      prev->Belt.Array.concat([|{id: prev->Item.getNextId, title}|])
+    );
   let update = (item, newTitle) =>
     setItems(prev =>
       prev->Belt.Array.map(x => x == item ? {...x, title: newTitle} : x)
@@ -29,6 +43,6 @@ let make = () => {
 
   <>
     <header> <h1> {"Table Name" |> ReasonReact.string} </h1> </header>
-    <ol> itemEls </ol>
+    <ol> itemEls <AddRow onCreate=create /> </ol>
   </>;
 };
