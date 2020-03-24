@@ -2,46 +2,22 @@
 
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
-var $$String = require("bs-platform/lib/js/string.js");
+var RowInput$SocialDmTools = require("./RowInput.bs.js");
 
-function EditableRow$RowInput(Props) {
-  var onEdit = Props.onEdit;
-  var onBlur = Props.onBlur;
-  var title = Props.title;
-  var match = React.useState((function () {
-          return title;
-        }));
-  var setEditedVal = match[1];
-  var editedVal = match[0];
-  return React.createElement("input", {
-              autoFocus: true,
-              type: "text",
-              value: editedVal,
-              onKeyUp: (function (e) {
-                  var match = $$String.lowercase_ascii(e.key);
-                  if (match === "enter") {
-                    Curry._1(onEdit, editedVal);
-                    return Curry._1(setEditedVal, (function (param) {
-                                  return title;
-                                }));
-                  } else {
-                    return /* () */0;
-                  }
-                }),
-              onBlur: (function (param) {
-                  return Curry._1(onBlur, editedVal);
-                }),
-              onChange: (function (e) {
-                  var newVal = e.target.value;
-                  return Curry._1(setEditedVal, (function (param) {
-                                return newVal;
-                              }));
-                })
-            });
+function EditableRow$RowWrapper(Props) {
+  var onDoubleClickOpt = Props.onDoubleClick;
+  var children = Props.children;
+  var onDoubleClick = onDoubleClickOpt !== undefined ? onDoubleClickOpt : (function (param) {
+        return /* () */0;
+      });
+  return React.createElement("li", {
+              className: "ml-8 mr-2 py-2 px-1",
+              onDoubleClick: onDoubleClick
+            }, children);
 }
 
-var RowInput = {
-  make: EditableRow$RowInput
+var RowWrapper = {
+  make: EditableRow$RowWrapper
 };
 
 function EditableRow(Props) {
@@ -59,24 +35,29 @@ function EditableRow(Props) {
     return Curry._1(onSave, newTitle);
   };
   if (match[0]) {
-    return React.createElement(EditableRow$RowInput, {
-                onEdit: onEdit,
-                onBlur: onEdit,
-                title: title
+    return React.createElement(EditableRow$RowWrapper, {
+                children: React.createElement(RowInput$SocialDmTools.make, {
+                      onEdit: onEdit,
+                      onBlur: onEdit,
+                      title: title
+                    })
               });
   } else {
-    return React.createElement("li", {
+    return React.createElement(EditableRow$RowWrapper, {
                 onDoubleClick: (function (param) {
                     return Curry._1(setState, (function (param) {
                                   return /* Editing */1;
                                 }));
-                  })
-              }, title);
+                  }),
+                children: React.createElement("div", {
+                      className: "py-1 px-2 border-white border"
+                    }, title)
+              });
   }
 }
 
 var make = EditableRow;
 
-exports.RowInput = RowInput;
+exports.RowWrapper = RowWrapper;
 exports.make = make;
 /* react Not a pure module */

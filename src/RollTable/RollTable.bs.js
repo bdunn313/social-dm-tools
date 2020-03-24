@@ -85,9 +85,15 @@ function RollTable(Props) {
                       key: "row-" + (String(item.id) + ("-" + (String(title) + "")))
                     });
         }));
-  return React.createElement(React.Fragment, undefined, React.createElement("header", undefined, React.createElement("h1", undefined, "Table Name")), React.createElement("ol", undefined, React.createElement(AddRow$SocialDmTools.make, {
+  return React.createElement("section", {
+              className: "bg-white rounded shadow-xl"
+            }, React.createElement("header", {
+                  className: "flex flex-col bg-gray-400 px-3 py-2 rounded-t"
+                }, React.createElement(AddRow$SocialDmTools.make, {
                       onCreate: create
-                    }), itemEls));
+                    })), React.createElement("ol", {
+                  className: "list-decimal"
+                }, itemEls));
 }
 
 var make = RollTable;

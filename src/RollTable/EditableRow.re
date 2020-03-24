@@ -2,28 +2,10 @@ type state =
   | Viewing
   | Editing;
 
-module RowInput = {
+module RowWrapper = {
   [@react.component]
-  let make = (~onEdit, ~onBlur, ~title) => {
-    let (editedVal, setEditedVal) = React.useState(() => title);
-    let handleChange = newVal => setEditedVal(_ => newVal);
-    let resetInput = () => setEditedVal(_ => title);
-    <input
-      autoFocus=true
-      type_="text"
-      onChange={e => e->ReactEvent.Form.target##value->handleChange}
-      onBlur={_ => onBlur(editedVal)}
-      onKeyUp={e =>
-        switch (e->ReactEvent.Keyboard.key->String.lowercase_ascii) {
-        | "enter" =>
-          onEdit(editedVal);
-          resetInput();
-        | _ => ()
-        }
-      }
-      value=editedVal
-    />;
-  };
+  let make = (~onDoubleClick=_ => (), ~children) =>
+    <li className="ml-8 mr-2 py-2 px-1" onDoubleClick> children </li>;
 };
 
 [@react.component]
@@ -35,9 +17,12 @@ let make = (~title="", ~onSave) => {
   };
   switch (state) {
   | Viewing =>
-    <li onDoubleClick={_ => setState(_ => Editing)}>
-      {title |> ReasonReact.string}
-    </li>
-  | Editing => <RowInput title onEdit onBlur=onEdit />
+    <RowWrapper onDoubleClick={_ => setState(_ => Editing)}>
+      <div className="py-1 px-2 border-white border">
+        {title |> ReasonReact.string}
+      </div>
+    </RowWrapper>
+  | Editing =>
+    <RowWrapper> <RowInput title onEdit onBlur=onEdit /> </RowWrapper>
   };
 };

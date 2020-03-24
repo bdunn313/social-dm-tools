@@ -1,11 +1,11 @@
 'use strict';
 
 var React = require("react");
-var EditableRow$SocialDmTools = require("./EditableRow.bs.js");
+var RowInput$SocialDmTools = require("./RowInput.bs.js");
 
 function AddRow(Props) {
   var onCreate = Props.onCreate;
-  return React.createElement(EditableRow$SocialDmTools.RowInput.make, {
+  return React.createElement(RowInput$SocialDmTools.make, {
               onEdit: onCreate,
               onBlur: (function (param) {
                   return /* () */0;
