@@ -9,7 +9,7 @@
     "build:webpack": "cross-env NODE_ENV=production webpack",
     "pretest": "yarn run build",
     "test": "jest",
-    "watch:test": "jest --coverage --watchAll",
+    "watch:test": "jest --watchAll",
     "format": "refmt src/*.re"
   },
   "keywords": [
