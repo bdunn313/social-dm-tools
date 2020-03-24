@@ -24,7 +24,6 @@
   "namespace": true,
   "bs-dependencies": [
     "reason-react",
-    "bs-webapi",
     "bs-react-testing-library",
     "@glennsl/bs-jest"
   ],
