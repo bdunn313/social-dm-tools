@@ -43,6 +43,6 @@ let make = () => {
 
   <>
     <header> <h1> {"Table Name" |> ReasonReact.string} </h1> </header>
-    <ol> itemEls <AddRow onCreate=create /> </ol>
+    <ol> <AddRow onCreate=create /> itemEls </ol>
   </>;
 };
