@@ -85,7 +85,9 @@ function RollTable(Props) {
                       key: "row-" + (String(item.id) + ("-" + (String(title) + "")))
                     });
         }));
-  return React.createElement(React.Fragment, undefined, React.createElement("header", undefined, React.createElement("h1", undefined, "Table Name")), React.createElement("ol", undefined, React.createElement(AddRow$SocialDmTools.make, {
+  return React.createElement("section", {
+              className: "bg-white rounded shadow-xl"
+            }, React.createElement("ol", undefined, React.createElement(AddRow$SocialDmTools.make, {
                       onCreate: create
                     }), itemEls));
 }

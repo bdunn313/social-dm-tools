@@ -41,8 +41,7 @@ let make = () => {
     )
     |> ReasonReact.array;
 
-  <>
-    <header> <h1> {"Table Name" |> ReasonReact.string} </h1> </header>
+  <section className="bg-white rounded shadow-xl">
     <ol> <AddRow onCreate=create /> itemEls </ol>
-  </>;
+  </section>;
 };

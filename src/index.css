@@ -4,3 +4,7 @@
 /* purgecss end ignore */
 
 @import "tailwindcss/utilities";
+
+html {
+  @apply bg-gray-200;
+}
