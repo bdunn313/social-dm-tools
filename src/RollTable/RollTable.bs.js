@@ -87,9 +87,13 @@ function RollTable(Props) {
         }));
   return React.createElement("section", {
               className: "bg-white rounded shadow-xl"
-            }, React.createElement("ol", undefined, React.createElement(AddRow$SocialDmTools.make, {
+            }, React.createElement("header", {
+                  className: "flex flex-col bg-gray-400 px-3 py-2 rounded-t"
+                }, React.createElement(AddRow$SocialDmTools.make, {
                       onCreate: create
-                    }), itemEls));
+                    })), React.createElement("ol", {
+                  className: "list-decimal"
+                }, itemEls));
 }
 
 var make = RollTable;

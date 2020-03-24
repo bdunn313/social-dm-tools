@@ -2,7 +2,7 @@
 
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
-var $$String = require("bs-platform/lib/js/string.js");
+var RowInput$SocialDmTools = require("./RowInput.bs.js");
 
 function EditableRow$RowWrapper(Props) {
   var onDoubleClickOpt = Props.onDoubleClick;
@@ -11,55 +11,13 @@ function EditableRow$RowWrapper(Props) {
         return /* () */0;
       });
   return React.createElement("li", {
-              className: "px-6 py-2",
+              className: "ml-8 mr-2 py-2 px-1",
               onDoubleClick: onDoubleClick
             }, children);
 }
 
 var RowWrapper = {
   make: EditableRow$RowWrapper
-};
-
-function EditableRow$RowInput(Props) {
-  var onEdit = Props.onEdit;
-  var onBlur = Props.onBlur;
-  var title = Props.title;
-  var match = React.useState((function () {
-          return title;
-        }));
-  var setEditedVal = match[1];
-  var editedVal = match[0];
-  return React.createElement(EditableRow$RowWrapper, {
-              children: React.createElement("input", {
-                    autoFocus: true,
-                    type: "text",
-                    value: editedVal,
-                    onKeyUp: (function (e) {
-                        var match = $$String.lowercase_ascii(e.key);
-                        if (match === "enter") {
-                          Curry._1(onEdit, editedVal);
-                          return Curry._1(setEditedVal, (function (param) {
-                                        return title;
-                                      }));
-                        } else {
-                          return /* () */0;
-                        }
-                      }),
-                    onBlur: (function (param) {
-                        return Curry._1(onBlur, editedVal);
-                      }),
-                    onChange: (function (e) {
-                        var newVal = e.target.value;
-                        return Curry._1(setEditedVal, (function (param) {
-                                      return newVal;
-                                    }));
-                      })
-                  })
-            });
-}
-
-var RowInput = {
-  make: EditableRow$RowInput
 };
 
 function EditableRow(Props) {
@@ -77,10 +35,12 @@ function EditableRow(Props) {
     return Curry._1(onSave, newTitle);
   };
   if (match[0]) {
-    return React.createElement(EditableRow$RowInput, {
-                onEdit: onEdit,
-                onBlur: onEdit,
-                title: title
+    return React.createElement(EditableRow$RowWrapper, {
+                children: React.createElement(RowInput$SocialDmTools.make, {
+                      onEdit: onEdit,
+                      onBlur: onEdit,
+                      title: title
+                    })
               });
   } else {
     return React.createElement(EditableRow$RowWrapper, {
@@ -89,7 +49,9 @@ function EditableRow(Props) {
                                   return /* Editing */1;
                                 }));
                   }),
-                children: title
+                children: React.createElement("div", {
+                      className: "py-1 px-2 border-white border"
+                    }, title)
               });
   }
 }
@@ -97,6 +59,5 @@ function EditableRow(Props) {
 var make = EditableRow;
 
 exports.RowWrapper = RowWrapper;
-exports.RowInput = RowInput;
 exports.make = make;
 /* react Not a pure module */

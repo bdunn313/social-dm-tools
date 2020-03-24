@@ -1,4 +1,4 @@
 [@react.component]
 let make = (~onCreate) => {
-  <EditableRow.RowInput title="" onEdit=onCreate onBlur={_ => ()} />;
+  <RowInput title="" onEdit=onCreate onBlur={_ => ()} />;
 };

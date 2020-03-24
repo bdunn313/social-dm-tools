@@ -42,6 +42,9 @@ let make = () => {
     |> ReasonReact.array;
 
   <section className="bg-white rounded shadow-xl">
-    <ol> <AddRow onCreate=create /> itemEls </ol>
+    <header className="flex flex-col bg-gray-400 px-3 py-2 rounded-t">
+      <AddRow onCreate=create />
+    </header>
+    <ol className="list-decimal"> itemEls </ol>
   </section>;
 };
