@@ -2,6 +2,7 @@
 
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
+var Js_math = require("bs-platform/lib/js/js_math.js");
 var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
 var Belt_Array = require("bs-platform/lib/js/belt_Array.js");
 var AddRow$SocialDmTools = require("./AddRow.bs.js");
@@ -21,9 +22,15 @@ function getNextId(items) {
   return getMaxId(items) + 1 | 0;
 }
 
+function getRandomItem(items) {
+  var selectedIndex = Js_math.random_int(0, items.length - 1 | 0);
+  return Belt_Array.get(items, selectedIndex);
+}
+
 var Item = {
   getMaxId: getMaxId,
-  getNextId: getNextId
+  getNextId: getNextId,
+  getRandomItem: getRandomItem
 };
 
 var testItems = [
@@ -54,6 +61,12 @@ function RollTable(Props) {
           return testItems;
         }));
   var setItems = match[1];
+  var items = match[0];
+  var match$1 = React.useState((function () {
+          return /* Cleared */1;
+        }));
+  var setRollState = match$1[1];
+  var rollState = match$1[0];
   var create = function (title) {
     return Curry._1(setItems, (function (prev) {
                   return Belt_Array.concat(prev, [{
@@ -62,7 +75,7 @@ function RollTable(Props) {
                               }]);
                 }));
   };
-  var itemEls = Belt_Array.map(match[0], (function (item) {
+  var itemEls = Belt_Array.map(items, (function (item) {
           var title = item.title;
           return React.createElement(EditableRow$SocialDmTools.make, {
                       title: title,
@@ -82,18 +95,35 @@ function RollTable(Props) {
                                                     }));
                                       }));
                         }),
+                      selected: typeof rollState === "number" ? false : Caml_obj.caml_equal(rollState[0], item),
                       key: "row-" + (String(item.id) + ("-" + (String(title) + "")))
                     });
         }));
   return React.createElement("section", {
-              className: "bg-white rounded shadow-xl"
+              className: "flex flex-col bg-white rounded shadow-xl"
             }, React.createElement("header", {
-                  className: "flex flex-col bg-gray-400 px-3 py-2 rounded-t"
+                  className: "bg-gray-400 px-3 py-2 rounded-t"
                 }, React.createElement(AddRow$SocialDmTools.make, {
                       onCreate: create
                     })), React.createElement("ol", {
                   className: "list-decimal"
-                }, itemEls));
+                }, itemEls), React.createElement("button", {
+                  className: "p-4 bg-gray-800 hover:bg-gray-900 focus:outline-none focus:shadow-outline text-white",
+                  disabled: typeof rollState === "number" ? rollState === 0 : false,
+                  onClick: (function (param) {
+                      Curry._1(setRollState, (function (param) {
+                              return /* Rolling */0;
+                            }));
+                      var cb = function (x) {
+                        return Curry._1(setRollState, (function (param) {
+                                      return x;
+                                    }));
+                      };
+                      var match = getRandomItem(items);
+                      Curry._1(cb, match !== undefined ? /* Rolled */[match] : /* Cleared */1);
+                      return /* () */0;
+                    })
+                }, "Roll!"));
 }
 
 var make = RollTable;
