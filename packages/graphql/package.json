@@ -1,0 +1,17 @@
+{
+  "name": "@social-dm-tools/graphql",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "apollo-server": "^2.11.0",
+    "graphql": "^14.6.0",
+    "nodemon": "^2.0.2"
+  },
+  "devDependencies": {
+    "prettier": "^2.0.2"
+  }
+}
