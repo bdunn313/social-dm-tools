@@ -1,3 +1,13 @@
+module HeroQuery = [%graphql
+  {|
+  query MyQuery {
+    books {
+      title
+    }
+  }
+|}
+];
+
 [@react.component]
 let make = () =>
   <main className="container mx-auto max-w-xl my-8">

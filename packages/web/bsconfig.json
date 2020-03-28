@@ -24,8 +24,10 @@
   "namespace": true,
   "bs-dependencies": [
     "reason-react",
+    "reason-apollo",
     "bs-react-testing-library",
     "@glennsl/bs-jest"
   ],
+  "ppx-flags": [["@baransu/graphql_ppx_re/ppx"]],
   "refmt": 3
 }
