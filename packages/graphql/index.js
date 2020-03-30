@@ -20,7 +20,8 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    addItem(id: String!, title: String!): RngList!
+    addItem(id: ID!, title: String!): RngList!
+    updateItem(id: ID!, title: String!): RngList!
   }
 `;
 
@@ -64,6 +65,20 @@ const resolvers = {
         return x;
       });
       return lists.find(x => x.id === args.id);
+    },
+    updateItem: (_parent, args, _context, _info) => {
+      let subjectList = null;
+      lists = lists.map(x => {
+        const newItems = x.items.map(item => {
+          if (item.id === args.id) {
+            subjectList = x.id;
+            return { ...item, title: args.title };
+          }
+          return item;
+        });
+        return { ...x, items: newItems };
+      });
+      return lists.find(x => x.id === subjectList);
     }
   }
 };
