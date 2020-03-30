@@ -19,29 +19,28 @@ const typeDefs = gql`
     lists: [RngList]!
   }
 
-  # type Mutation {
-  #   addItem: (id: String!, title: String!): RngList
-  #   addList: (title: String, firstItem: String!): RngList
-  # }
+  type Mutation {
+    addItem(id: String!, title: String!): RngList!
+  }
 `;
 
-const lists = [
+let lists = [
   {
     id: "LIST_0",
     title: "What book should I read?",
     items: [
-      { id: "book_0", title: "Harry Potter and the Chamber of Secrets" },
-      { id: "book_1", title: "Jurassic Park" }
+      { id: "LIST_0_ITEM_0", title: "Harry Potter and the Chamber of Secrets" },
+      { id: "LIST_0_ITEM_1", title: "Jurassic Park" }
     ]
   },
   {
     id: "LIST_1",
     title: "What lurks behind the next corner",
     items: [
-      { id: "lurks_0", title: "A gold dragon" },
-      { id: "lurks_1", title: "a kobold" },
-      { id: "lurks_2", title: "a friendly merchant" },
-      { id: "lurks_3", title: "a band of thieves" }
+      { id: "LIST_1_ITEM_0", title: "A gold dragon" },
+      { id: "LIST_1_ITEM_1", title: "a kobold" },
+      { id: "LIST_1_ITEM_2", title: "a friendly merchant" },
+      { id: "LIST_1_ITEM_3", title: "a band of thieves" }
     ]
   }
 ];
@@ -51,6 +50,23 @@ const lists = [
 const resolvers = {
   Query: {
     lists: () => lists
+  },
+  Mutation: {
+    addItem: (_parent, args, _context, _info) => {
+      console.log(args);
+      lists = lists.map(x => {
+        if (x.id === args.id) {
+          const newItems = [
+            ...x.items,
+            { id: `${x.id}_ITEM_${x.items.length}`, title: args.title }
+          ];
+          return { ...x, items: newItems };
+        }
+        return x;
+      });
+      console.log(lists);
+      return lists.filter(x => x.id === args.id);
+    }
   }
 };
 
