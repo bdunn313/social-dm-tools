@@ -7,49 +7,91 @@ var Js_json = require("bs-platform/lib/js/js_json.js");
 var Js_option = require("bs-platform/lib/js/js_option.js");
 var Belt_Array = require("bs-platform/lib/js/belt_Array.js");
 var ApolloHooks = require("reason-apollo-hooks/src/ApolloHooks.bs.js");
-var Belt_Option = require("bs-platform/lib/js/belt_Option.js");
 var Caml_option = require("bs-platform/lib/js/caml_option.js");
 var RollTable$SocialDmTools = require("./RollTable/RollTable.bs.js");
 
-var ppx_printed_query = "query MyQuery  {\nbooks  {\ntitle  \n}\n\n}\n";
+var ppx_printed_query = "query MyQuery  {\nlists  {\nid  \ntitle  \nitems  {\nid  \ntitle  \n}\n\n}\n\n}\n";
 
 function parse(value) {
   var value$1 = Js_option.getExn(Js_json.decodeObject(value));
-  var match = Js_dict.get(value$1, "books");
-  var tmp;
-  if (match !== undefined) {
-    var value$2 = Caml_option.valFromOption(match);
-    var match$1 = Js_json.decodeNull(value$2);
-    tmp = match$1 !== undefined ? undefined : Js_option.getExn(Js_json.decodeArray(value$2)).map((function (value) {
-              var match = Js_json.decodeNull(value);
-              if (match !== undefined) {
-                return ;
-              } else {
-                var value$1 = Js_option.getExn(Js_json.decodeObject(value));
-                var match$1 = Js_dict.get(value$1, "title");
-                var tmp;
-                if (match$1 !== undefined) {
-                  var value$2 = Caml_option.valFromOption(match$1);
-                  var match$2 = Js_json.decodeNull(value$2);
-                  if (match$2 !== undefined) {
-                    tmp = undefined;
-                  } else {
-                    var match$3 = Js_json.decodeString(value$2);
-                    tmp = match$3 !== undefined ? match$3 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$2));
-                  }
-                } else {
-                  tmp = undefined;
-                }
-                return {
-                        title: tmp
-                      };
-              }
-            }));
-  } else {
-    tmp = undefined;
-  }
+  var match = Js_dict.get(value$1, "lists");
   return {
-          books: tmp
+          lists: match !== undefined ? Js_option.getExn(Js_json.decodeArray(Caml_option.valFromOption(match))).map((function (value) {
+                    var match = Js_json.decodeNull(value);
+                    if (match !== undefined) {
+                      return ;
+                    } else {
+                      var match$1 = Js_json.decodeObject(value);
+                      var tmp;
+                      if (match$1 !== undefined) {
+                        var value$1 = Caml_option.valFromOption(match$1);
+                        var match$2 = Js_dict.get(value$1, "id");
+                        var field_id;
+                        if (match$2 !== undefined) {
+                          var value$2 = Caml_option.valFromOption(match$2);
+                          var match$3 = Js_json.decodeString(value$2);
+                          field_id = match$3 !== undefined ? match$3 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$2));
+                        } else {
+                          field_id = Js_exn.raiseError("graphql_ppx: Field id on type RngList is missing");
+                        }
+                        var match$4 = Js_dict.get(value$1, "title");
+                        var field_title;
+                        if (match$4 !== undefined) {
+                          var value$3 = Caml_option.valFromOption(match$4);
+                          var match$5 = Js_json.decodeString(value$3);
+                          field_title = match$5 !== undefined ? match$5 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$3));
+                        } else {
+                          field_title = Js_exn.raiseError("graphql_ppx: Field title on type RngList is missing");
+                        }
+                        var match$6 = Js_dict.get(value$1, "items");
+                        var field_items = match$6 !== undefined ? Js_option.getExn(Js_json.decodeArray(Caml_option.valFromOption(match$6))).map((function (value) {
+                                  var match = Js_json.decodeNull(value);
+                                  if (match !== undefined) {
+                                    return ;
+                                  } else {
+                                    var match$1 = Js_json.decodeObject(value);
+                                    var tmp;
+                                    if (match$1 !== undefined) {
+                                      var value$1 = Caml_option.valFromOption(match$1);
+                                      var match$2 = Js_dict.get(value$1, "id");
+                                      var field_id;
+                                      if (match$2 !== undefined) {
+                                        var value$2 = Caml_option.valFromOption(match$2);
+                                        var match$3 = Js_json.decodeString(value$2);
+                                        field_id = match$3 !== undefined ? match$3 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$2));
+                                      } else {
+                                        field_id = Js_exn.raiseError("graphql_ppx: Field id on type RngListItem is missing");
+                                      }
+                                      var match$4 = Js_dict.get(value$1, "title");
+                                      var field_title;
+                                      if (match$4 !== undefined) {
+                                        var value$3 = Caml_option.valFromOption(match$4);
+                                        var match$5 = Js_json.decodeString(value$3);
+                                        field_title = match$5 !== undefined ? match$5 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$3));
+                                      } else {
+                                        field_title = Js_exn.raiseError("graphql_ppx: Field title on type RngListItem is missing");
+                                      }
+                                      tmp = {
+                                        id: field_id,
+                                        title: field_title
+                                      };
+                                    } else {
+                                      tmp = Js_exn.raiseError("graphql_ppx: Expected object of type RngListItem, got " + JSON.stringify(value));
+                                    }
+                                    return tmp;
+                                  }
+                                })) : Js_exn.raiseError("graphql_ppx: Field items on type RngList is missing");
+                        tmp = {
+                          id: field_id,
+                          title: field_title,
+                          items: field_items
+                        };
+                      } else {
+                        tmp = Js_exn.raiseError("graphql_ppx: Expected object of type RngList, got " + JSON.stringify(value));
+                      }
+                      return tmp;
+                    }
+                  })) : Js_exn.raiseError("graphql_ppx: Field lists on type Query is missing")
         };
 }
 
@@ -89,7 +131,7 @@ function ret_type(f) {
 
 var MT_Ret = { };
 
-var BookQuery = {
+var ListQuery = {
   ppx_printed_query: ppx_printed_query,
   query: ppx_printed_query,
   parse: parse,
@@ -106,18 +148,25 @@ function App(Props) {
   var simple = match[0];
   var tmp;
   if (typeof simple === "number") {
-    tmp = simple === /* Loading */0 ? React.createElement("div", undefined, "Loading") : React.createElement("div", undefined, "Something went reallly wrong");
+    tmp = simple === /* Loading */0 ? React.createElement("div", undefined, "Loading") : "Something really went wrong here!";
   } else if (simple.tag) {
-    tmp = React.createElement("div", undefined, simple[0].message);
+    console.log(simple[0]);
+    tmp = "Something went wrong";
   } else {
-    var match$1 = simple[0].books;
-    tmp = match$1 !== undefined ? React.createElement(React.Fragment, undefined, Belt_Array.map(match$1, (function (book) {
-                  return React.createElement("div", undefined, Belt_Option.mapWithDefault(book, "", (function (b) {
-                                    return Belt_Option.mapWithDefault(b.title, "", (function (title) {
-                                                  return title;
-                                                }));
-                                  })));
-                }))) : React.createElement("div", undefined, "No books found");
+    tmp = Belt_Array.map(simple[0].lists, (function (list) {
+            if (list !== undefined) {
+              var match = list;
+              var title = match.title;
+              var key = "rolltable-" + (String(match.id) + ("-" + (String(title) + "")));
+              return React.createElement(RollTable$SocialDmTools.make, {
+                          items: match.items,
+                          title: title,
+                          key: key
+                        });
+            } else {
+              return null;
+            }
+          }));
   }
   return React.createElement("main", {
               className: "container mx-auto max-w-xl my-8"
@@ -125,11 +174,11 @@ function App(Props) {
                   className: "pb-1 px-3"
                 }, React.createElement("h1", {
                       className: "text-blue-700 text-4xl"
-                    }, "Social DM Tools!")), React.createElement("div", undefined, React.createElement(RollTable$SocialDmTools.make, { }), tmp));
+                    }, "Social DM Tools!")), React.createElement("div", undefined, tmp));
 }
 
 var make$1 = App;
 
-exports.BookQuery = BookQuery;
+exports.ListQuery = ListQuery;
 exports.make = make$1;
 /* react Not a pure module */

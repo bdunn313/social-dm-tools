@@ -11,7 +11,7 @@
     "test": "jest",
     "watch:test": "jest --watchAll",
     "format": "refmt src/*.re",
-    "build:schema": "yarn get-graphql-schema http://localhost:9999 -j > ../graphql_schema.json"
+    "build:schema": "npx get-graphql-schema http://localhost:9999 -j > ./graphql_schema.json"
   },
   "keywords": [
     "BuckleScript",

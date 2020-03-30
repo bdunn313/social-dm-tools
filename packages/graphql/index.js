@@ -4,30 +4,45 @@ const { ApolloServer, gql } = require("apollo-server");
 // that together define the "shape" of queries that are executed against
 // your data.
 const typeDefs = gql`
-  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
-
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
-    title: String
-    author: String
+  type RngListItem {
+    id: ID!
+    title: String!
   }
 
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
+  type RngList {
+    id: ID!
+    title: String!
+    items: [RngListItem]!
+  }
+
   type Query {
-    books: [Book]
+    lists: [RngList]!
   }
+
+  # type Mutation {
+  #   addItem: (id: String!, title: String!): RngList
+  #   addList: (title: String, firstItem: String!): RngList
+  # }
 `;
 
-const books = [
+const lists = [
   {
-    title: "Harry Potter and the Chamber of Secrets",
-    author: "J.K. Rowling"
+    id: "LIST_0",
+    title: "What book should I read?",
+    items: [
+      { id: "book_0", title: "Harry Potter and the Chamber of Secrets" },
+      { id: "book_1", title: "Jurassic Park" }
+    ]
   },
   {
-    title: "Jurassic Park",
-    author: "Michael Crichton"
+    id: "LIST_1",
+    title: "What lurks behind the next corner",
+    items: [
+      { id: "lurks_0", title: "A gold dragon" },
+      { id: "lurks_1", title: "a kobold" },
+      { id: "lurks_2", title: "a friendly merchant" },
+      { id: "lurks_3", title: "a band of thieves" }
+    ]
   }
 ];
 
@@ -35,7 +50,7 @@ const books = [
 // schema. This resolver retrieves books from the "books" array above.
 const resolvers = {
   Query: {
-    books: () => books
+    lists: () => lists
   }
 };
 

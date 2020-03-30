@@ -1,8 +1,21 @@
-module BookQuery = [%graphql
+open RollTable;
+type myList = {
+  id: string,
+  title: string,
+  items: array(option(item)),
+};
+type lists = array(option(myList));
+
+module ListQuery = [%graphql
   {|
   query MyQuery {
-    books {
+    lists @bsRecord {
+      id
       title
+      items @bsRecord {
+        id
+        title
+      }
     }
   }
 |}
@@ -10,7 +23,7 @@ module BookQuery = [%graphql
 
 [@react.component]
 let make = () => {
-  let (simple, _full) = ApolloHooks.useQuery(BookQuery.definition);
+  let (simple, _full) = ApolloHooks.useQuery(ListQuery.definition);
   <main className="container mx-auto max-w-xl my-8">
     <header className="pb-1 px-3">
       <h1 className="text-blue-700 text-4xl">
@@ -18,28 +31,23 @@ let make = () => {
       </h1>
     </header>
     <div>
-      <RollTable />
       {switch (simple) {
        | Loading => <div> {"Loading" |> ReasonReact.string} </div>
-       | Error(error) => <div> {error##message |> ReasonReact.string} </div>
+       | Error(error) =>
+         Js.log(error);
+         "Something went wrong" |> ReasonReact.string;
        | Data(data) =>
-         switch (data##books) {
-         | None => <div> {"No books found" |> ReasonReact.string} </div>
-         | Some(books) =>
-           <>
-             {books->Belt.Array.map(book =>
-                <div>
-                  {book->Belt.Option.mapWithDefault("", b =>
-                     b##title->Belt.Option.mapWithDefault("", title => title)
-                   )
-                   |> ReasonReact.string}
-                </div>
-              )
-              |> React.array}
-           </>
-         }
-       | NoData =>
-         <div> {"Something went reallly wrong" |> ReasonReact.string} </div>
+         data##lists
+         ->Belt.Array.map(list =>
+             switch (list) {
+             | None => React.null
+             | Some({id, title, items}) =>
+               let key = {j|rolltable-$id-$title|j};
+               <RollTable key title items />;
+             }
+           )
+         |> React.array
+       | NoData => "Something really went wrong here!" |> ReasonReact.string
        }}
     </div>
   </main>;
