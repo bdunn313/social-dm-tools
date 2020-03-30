@@ -1,6 +1,13 @@
-type state =
-  | Viewing
-  | Editing;
+module UpdateMutation = [%graphql
+  {|
+  mutation UpdateMutation($id: ID!, $newTitle: String!) {
+    updateItem(id: $id, title: $newTitle) {
+      id
+      title
+    }
+  }
+|}
+];
 
 module RowWrapper = {
   [@react.component]
@@ -12,12 +19,26 @@ module RowWrapper = {
   };
 };
 
+type state =
+  | Viewing
+  | Editing;
+
 [@react.component]
-let make = (~title="", ~onSave, ~selected) => {
+let make = (~id, ~title="", ~selected) => {
   let (state, setState) = React.useState(_ => Viewing);
+  let (updateMutation, _, _) =
+    ApolloHooks.useMutation(UpdateMutation.definition);
   let onEdit = newTitle => {
     setState(_ => Viewing);
-    onSave(newTitle);
+    updateMutation(
+      ~variables=UpdateMutation.makeVariables(~id, ~newTitle, ()),
+      (),
+    )
+    |> Js.Promise.then_(result => {
+         Js.log2("mutation result", result);
+         Js.Promise.resolve();
+       })
+    |> ignore;
   };
   switch (state) {
   | Viewing =>

@@ -21,7 +21,7 @@ const typeDefs = gql`
 
   type Mutation {
     addItem(id: ID!, title: String!): RngList!
-    updateItem(id: ID!, title: String!): RngList!
+    updateItem(id: ID!, title: String!): RngListItem!
   }
 `;
 
@@ -67,18 +67,18 @@ const resolvers = {
       return lists.find(x => x.id === args.id);
     },
     updateItem: (_parent, args, _context, _info) => {
-      let subjectList = null;
+      let subjectItem = null;
       lists = lists.map(x => {
         const newItems = x.items.map(item => {
           if (item.id === args.id) {
-            subjectList = x.id;
-            return { ...item, title: args.title };
+            subjectItem = { ...item, title: args.title };
+            return subjectItem;
           }
           return item;
         });
         return { ...x, items: newItems };
       });
-      return lists.find(x => x.id === subjectList);
+      return subjectItem;
     }
   }
 };
