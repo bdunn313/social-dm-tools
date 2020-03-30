@@ -6,9 +6,9 @@ var Js_dict = require("bs-platform/lib/js/js_dict.js");
 var Js_json = require("bs-platform/lib/js/js_json.js");
 var Js_option = require("bs-platform/lib/js/js_option.js");
 var Belt_Array = require("bs-platform/lib/js/belt_Array.js");
+var ApolloHooks = require("reason-apollo-hooks/src/ApolloHooks.bs.js");
 var Belt_Option = require("bs-platform/lib/js/belt_Option.js");
 var Caml_option = require("bs-platform/lib/js/caml_option.js");
-var ReasonApollo = require("reason-apollo/src/ReasonApollo.bs.js");
 var RollTable$SocialDmTools = require("./RollTable/RollTable.bs.js");
 
 var ppx_printed_query = "query MyQuery  {\nbooks  {\ntitle  \n}\n\n}\n";
@@ -101,48 +101,35 @@ var BookQuery = {
   MT_Ret: MT_Ret
 };
 
-var GetBookQuery = ReasonApollo.CreateQuery({
-      query: ppx_printed_query,
-      parse: parse
-    });
-
 function App(Props) {
-  var query = make(/* () */0);
+  var match = ApolloHooks.useQuery(undefined, undefined, undefined, undefined, undefined, undefined, undefined, definition);
+  var simple = match[0];
+  var tmp;
+  if (typeof simple === "number") {
+    tmp = simple === /* Loading */0 ? React.createElement("div", undefined, "Loading") : React.createElement("div", undefined, "Something went reallly wrong");
+  } else if (simple.tag) {
+    tmp = React.createElement("div", undefined, simple[0].message);
+  } else {
+    var match$1 = simple[0].books;
+    tmp = match$1 !== undefined ? React.createElement(React.Fragment, undefined, Belt_Array.map(match$1, (function (book) {
+                  return React.createElement("div", undefined, Belt_Option.mapWithDefault(book, "", (function (b) {
+                                    return Belt_Option.mapWithDefault(b.title, "", (function (title) {
+                                                  return title;
+                                                }));
+                                  })));
+                }))) : React.createElement("div", undefined, "No books found");
+  }
   return React.createElement("main", {
               className: "container mx-auto max-w-xl my-8"
             }, React.createElement("header", {
                   className: "pb-1 px-3"
                 }, React.createElement("h1", {
                       className: "text-blue-700 text-4xl"
-                    }, "Social DM Tools!")), React.createElement("div", undefined, React.createElement(RollTable$SocialDmTools.make, { }), React.createElement(GetBookQuery.make, {
-                      variables: query.variables,
-                      children: (function (param) {
-                          var result = param.result;
-                          if (typeof result === "number") {
-                            return React.createElement("div", undefined, "Loading");
-                          } else if (result.tag) {
-                            var match = result[0].books;
-                            if (match !== undefined) {
-                              return React.createElement(React.Fragment, undefined, Belt_Array.map(match, (function (book) {
-                                                return React.createElement("div", undefined, Belt_Option.mapWithDefault(book, "", (function (b) {
-                                                                  return Belt_Option.mapWithDefault(b.title, "", (function (title) {
-                                                                                return title;
-                                                                              }));
-                                                                })));
-                                              })));
-                            } else {
-                              return React.createElement("div", undefined, "No books found");
-                            }
-                          } else {
-                            return React.createElement("div", undefined, result[0].message);
-                          }
-                        })
-                    })));
+                    }, "Social DM Tools!")), React.createElement("div", undefined, React.createElement(RollTable$SocialDmTools.make, { }), tmp));
 }
 
 var make$1 = App;
 
 exports.BookQuery = BookQuery;
-exports.GetBookQuery = GetBookQuery;
 exports.make = make$1;
-/* GetBookQuery Not a pure module */
+/* react Not a pure module */
