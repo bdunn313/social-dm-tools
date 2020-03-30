@@ -43,7 +43,7 @@ let make = () => {
              | None => React.null
              | Some({id, title, items}) =>
                let key = {j|rolltable-$id-$title|j};
-               <RollTable key title items />;
+               <RollTable key id title items />;
              }
            )
          |> React.array

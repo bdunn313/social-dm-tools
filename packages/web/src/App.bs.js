@@ -157,8 +157,10 @@ function App(Props) {
             if (list !== undefined) {
               var match = list;
               var title = match.title;
-              var key = "rolltable-" + (String(match.id) + ("-" + (String(title) + "")));
+              var id = match.id;
+              var key = "rolltable-" + (String(id) + ("-" + (String(title) + "")));
               return React.createElement(RollTable$SocialDmTools.make, {
+                          id: id,
                           items: match.items,
                           title: title,
                           key: key

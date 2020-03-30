@@ -3,29 +3,53 @@ type item = {
   title: string,
 };
 
-let getRandomItem = items => {
-  let selectedIndex = Js.Math.random_int(0, items->Belt.Array.length - 1);
-  items->Belt.Array.get(selectedIndex);
-};
-
 type rollState =
   | Rolling
   | Rolled(item)
   | Cleared;
 
-[@react.component]
-let make = (~items: array(option(item)), ~title) => {
-  let (rollState, setRollState) = React.useState(() => Cleared);
+module CreateMutation = [%graphql
+  {|
+  mutation MyMutation($id: String!, $newTitle:String!)
+  {
+    addItem(id: $id, title: $newTitle) {
+      id
+      title
+      items {
+        id
+        title
+      }
+    }
+  }
+|}
+];
 
-  // let create = title =>
-  //   setItems(prev =>
-  //     prev->Belt.Array.concat([|{id: prev->Item.getNextId, title}|])
-  //   );
+let getRandomItem = items => {
+  let selectedIndex = Js.Math.random_int(0, items->Belt.Array.length - 1);
+  items->Belt.Array.get(selectedIndex);
+};
+
+[@react.component]
+let make = (~id, ~items: array(option(item)), ~title) => {
+  let (rollState, setRollState) = React.useState(() => Cleared);
+  let (createMutation, _simple, _full) =
+    ApolloHooks.useMutation(CreateMutation.definition);
   // let update = (item, newTitle) =>
   //   setItems(prev =>
   //     prev->Belt.Array.map(x => x == item ? {...x, title: newTitle} : x)
   //   );
-  let create = _title => ();
+  let create = newTitle => {
+    createMutation(
+      ~variables=CreateMutation.makeVariables(~id, ~newTitle, ()),
+      (),
+    )
+    |> Js.Promise.then_(result => {
+         Js.log2("mutation result", result);
+         Js.Promise.resolve();
+       })
+    |> ignore;
+  };
+
   let update = (_item, _newTitle) => ();
   let rollForItem = cb => {
     cb(

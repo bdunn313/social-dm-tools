@@ -53,7 +53,6 @@ const resolvers = {
   },
   Mutation: {
     addItem: (_parent, args, _context, _info) => {
-      console.log(args);
       lists = lists.map(x => {
         if (x.id === args.id) {
           const newItems = [
@@ -64,8 +63,7 @@ const resolvers = {
         }
         return x;
       });
-      console.log(lists);
-      return lists.filter(x => x.id === args.id);
+      return lists.find(x => x.id === args.id);
     }
   }
 };
