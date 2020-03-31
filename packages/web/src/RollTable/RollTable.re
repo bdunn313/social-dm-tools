@@ -16,7 +16,6 @@ let getRandomItem = items => {
 [@react.component]
 let make = (~id, ~items: array(option(item)), ~title) => {
   let (rollState, setRollState) = React.useState(() => Cleared);
-  let update = (_item, _newTitle) => ();
   let rollForItem = cb => {
     cb(
       switch (items->getRandomItem) {
