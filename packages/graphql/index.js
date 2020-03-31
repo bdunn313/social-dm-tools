@@ -22,6 +22,7 @@ const typeDefs = gql`
   type Mutation {
     addItem(id: ID!, title: String!): RngList!
     updateItem(id: ID!, title: String!): RngListItem!
+    removeItem(id: ID!): RngList!
   }
 `;
 
@@ -45,7 +46,6 @@ let lists = [
     ]
   }
 ];
-
 // Resolvers define the technique for fetching the types defined in the
 // schema. This resolver retrieves books from the "books" array above.
 const resolvers = {
@@ -79,6 +79,20 @@ const resolvers = {
         return { ...x, items: newItems };
       });
       return subjectItem;
+    },
+    removeItem: (_parent, args, _context, _info) => {
+      let targetlist = null;
+      lists = lists.map(x => {
+        const newList = {
+          ...x,
+          items: x.items.filter(y => y.id !== args.id)
+        };
+        if (newList.items.length < x.items.length) {
+          targetlist = newList;
+        }
+        return newList;
+      });
+      return targetlist;
     }
   }
 };
