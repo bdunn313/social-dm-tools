@@ -1,6 +1,6 @@
 module ListQuery = [%graphql
   {|
-  query MyQuery {
+  query AllRngListsQuery {
     lists {
       id
       title

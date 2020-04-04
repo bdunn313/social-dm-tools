@@ -10,7 +10,7 @@ var ApolloHooks = require("reason-apollo-hooks/src/ApolloHooks.bs.js");
 var Caml_option = require("bs-platform/lib/js/caml_option.js");
 var RollTable$SocialDmTools = require("./RollTable/RollTable.bs.js");
 
-var ppx_printed_query = "query MyQuery  {\nlists  {\nid  \ntitle  \nitems  {\nid  \ntitle  \n}\n\n}\n\n}\n";
+var ppx_printed_query = "query AllRngListsQuery  {\nlists  {\nid  \ntitle  \nitems  {\nid  \ntitle  \n}\n\n}\n\n}\n";
 
 function parse(value) {
   var value$1 = Js_option.getExn(Js_json.decodeObject(value));
