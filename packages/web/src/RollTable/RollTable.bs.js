@@ -25,9 +25,9 @@ function RollTable(Props) {
   var rollState = match[0];
   var itemEls = Belt_Array.map(items, (function (maybeItem) {
           if (maybeItem !== undefined) {
-            var item = maybeItem;
-            var title = item.title;
+            var item = Caml_option.valFromOption(maybeItem);
             var id = item.id;
+            var title = item.title;
             return React.createElement(EditableRow$SocialDmTools.make, {
                         id: id,
                         title: title,
@@ -64,7 +64,7 @@ function RollTable(Props) {
                       var tmp;
                       if (match !== undefined) {
                         var x = Caml_option.valFromOption(match);
-                        tmp = x !== undefined ? /* Rolled */[x] : /* Cleared */1;
+                        tmp = x !== undefined ? /* Rolled */[Caml_option.valFromOption(x)] : /* Cleared */1;
                       } else {
                         tmp = /* Cleared */1;
                       }

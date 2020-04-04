@@ -1,18 +1,10 @@
-open RollTable;
-type myList = {
-  id: string,
-  title: string,
-  items: array(option(item)),
-};
-type lists = array(option(myList));
-
 module ListQuery = [%graphql
   {|
-  query MyQuery {
-    lists @bsRecord {
+  query AllRngListsQuery {
+    lists {
       id
       title
-      items @bsRecord {
+      items {
         id
         title
       }
@@ -41,7 +33,10 @@ let make = () => {
          ->Belt.Array.map(list =>
              switch (list) {
              | None => React.null
-             | Some({id, title, items}) =>
+             | Some(vals) =>
+               let id = vals##id;
+               let items = vals##items;
+               let title = vals##title;
                let key = {j|rolltable-$id-$title|j};
                <RollTable key id title items />;
              }
