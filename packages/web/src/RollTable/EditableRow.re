@@ -46,20 +46,9 @@ let make = (~id, ~title="", ~selected) => {
   let (state, setState) = React.useState(_ => Viewing);
   let (updateMutation, _, _) =
     ApolloHooks.useMutation(UpdateMutation.definition);
-  // let deleteCacheUpdate = (client, mutationResult) => {
-  //   let data =
-  //     mutationResult##data
-  //     ->Belt.Option.flatMap(result => result##updatePerson);
-  //   switch (data) {
-  //   | Some(person) =>
-  //     FilterByNameCache.updateCache(client, person, filterName)
-  //   | None => ()
-  //   };
-  // };
   let (removeMutation, _, _) =
     ApolloHooks.useMutation(
       ~variables=RemoveMutation.makeVariables(~id, ()),
-      // ~update=updateAfterDelete,
       RemoveMutation.definition,
     );
   let onEdit = newTitle => {
