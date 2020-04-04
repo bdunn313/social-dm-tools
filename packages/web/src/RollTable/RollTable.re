@@ -1,6 +1,7 @@
 type item = {
-  id: string,
-  title: string,
+  .
+  "id": string,
+  "title": string,
 };
 
 type rollState =
@@ -14,7 +15,7 @@ let getRandomItem = items => {
 };
 
 [@react.component]
-let make = (~id, ~items: array(option(item)), ~title) => {
+let make = (~id, ~items, ~title) => {
   let (rollState, setRollState) = React.useState(() => Cleared);
   let rollForItem = cb => {
     cb(
@@ -33,7 +34,9 @@ let make = (~id, ~items: array(option(item)), ~title) => {
     items->Belt.Array.map(maybeItem =>
       switch (maybeItem) {
       | None => React.null
-      | Some({id, title} as item) =>
+      | Some(item) =>
+        let id = item##id;
+        let title = item##title;
         <EditableRow
           key={j|row-$id-$title|j}
           id
@@ -44,7 +47,7 @@ let make = (~id, ~items: array(option(item)), ~title) => {
             | _ => false
             }
           }
-        />
+        />;
       }
     )
     |> ReasonReact.array;

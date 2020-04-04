@@ -21,75 +21,60 @@ function parse(value) {
                     if (match !== undefined) {
                       return ;
                     } else {
-                      var match$1 = Js_json.decodeObject(value);
+                      var value$1 = Js_option.getExn(Js_json.decodeObject(value));
+                      var match$1 = Js_dict.get(value$1, "id");
                       var tmp;
                       if (match$1 !== undefined) {
-                        var value$1 = Caml_option.valFromOption(match$1);
-                        var match$2 = Js_dict.get(value$1, "id");
-                        var field_id;
-                        if (match$2 !== undefined) {
-                          var value$2 = Caml_option.valFromOption(match$2);
-                          var match$3 = Js_json.decodeString(value$2);
-                          field_id = match$3 !== undefined ? match$3 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$2));
-                        } else {
-                          field_id = Js_exn.raiseError("graphql_ppx: Field id on type RngList is missing");
-                        }
-                        var match$4 = Js_dict.get(value$1, "title");
-                        var field_title;
-                        if (match$4 !== undefined) {
-                          var value$3 = Caml_option.valFromOption(match$4);
-                          var match$5 = Js_json.decodeString(value$3);
-                          field_title = match$5 !== undefined ? match$5 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$3));
-                        } else {
-                          field_title = Js_exn.raiseError("graphql_ppx: Field title on type RngList is missing");
-                        }
-                        var match$6 = Js_dict.get(value$1, "items");
-                        var field_items = match$6 !== undefined ? Js_option.getExn(Js_json.decodeArray(Caml_option.valFromOption(match$6))).map((function (value) {
-                                  var match = Js_json.decodeNull(value);
-                                  if (match !== undefined) {
-                                    return ;
-                                  } else {
-                                    var match$1 = Js_json.decodeObject(value);
-                                    var tmp;
-                                    if (match$1 !== undefined) {
-                                      var value$1 = Caml_option.valFromOption(match$1);
-                                      var match$2 = Js_dict.get(value$1, "id");
-                                      var field_id;
-                                      if (match$2 !== undefined) {
-                                        var value$2 = Caml_option.valFromOption(match$2);
-                                        var match$3 = Js_json.decodeString(value$2);
-                                        field_id = match$3 !== undefined ? match$3 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$2));
-                                      } else {
-                                        field_id = Js_exn.raiseError("graphql_ppx: Field id on type RngListItem is missing");
-                                      }
-                                      var match$4 = Js_dict.get(value$1, "title");
-                                      var field_title;
-                                      if (match$4 !== undefined) {
-                                        var value$3 = Caml_option.valFromOption(match$4);
-                                        var match$5 = Js_json.decodeString(value$3);
-                                        field_title = match$5 !== undefined ? match$5 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$3));
-                                      } else {
-                                        field_title = Js_exn.raiseError("graphql_ppx: Field title on type RngListItem is missing");
-                                      }
-                                      tmp = {
-                                        id: field_id,
-                                        title: field_title
-                                      };
-                                    } else {
-                                      tmp = Js_exn.raiseError("graphql_ppx: Expected object of type RngListItem, got " + JSON.stringify(value));
-                                    }
-                                    return tmp;
-                                  }
-                                })) : Js_exn.raiseError("graphql_ppx: Field items on type RngList is missing");
-                        tmp = {
-                          id: field_id,
-                          title: field_title,
-                          items: field_items
-                        };
+                        var value$2 = Caml_option.valFromOption(match$1);
+                        var match$2 = Js_json.decodeString(value$2);
+                        tmp = match$2 !== undefined ? match$2 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$2));
                       } else {
-                        tmp = Js_exn.raiseError("graphql_ppx: Expected object of type RngList, got " + JSON.stringify(value));
+                        tmp = Js_exn.raiseError("graphql_ppx: Field id on type RngList is missing");
                       }
-                      return tmp;
+                      var match$3 = Js_dict.get(value$1, "title");
+                      var tmp$1;
+                      if (match$3 !== undefined) {
+                        var value$3 = Caml_option.valFromOption(match$3);
+                        var match$4 = Js_json.decodeString(value$3);
+                        tmp$1 = match$4 !== undefined ? match$4 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$3));
+                      } else {
+                        tmp$1 = Js_exn.raiseError("graphql_ppx: Field title on type RngList is missing");
+                      }
+                      var match$5 = Js_dict.get(value$1, "items");
+                      return {
+                              id: tmp,
+                              title: tmp$1,
+                              items: match$5 !== undefined ? Js_option.getExn(Js_json.decodeArray(Caml_option.valFromOption(match$5))).map((function (value) {
+                                        var match = Js_json.decodeNull(value);
+                                        if (match !== undefined) {
+                                          return ;
+                                        } else {
+                                          var value$1 = Js_option.getExn(Js_json.decodeObject(value));
+                                          var match$1 = Js_dict.get(value$1, "id");
+                                          var tmp;
+                                          if (match$1 !== undefined) {
+                                            var value$2 = Caml_option.valFromOption(match$1);
+                                            var match$2 = Js_json.decodeString(value$2);
+                                            tmp = match$2 !== undefined ? match$2 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$2));
+                                          } else {
+                                            tmp = Js_exn.raiseError("graphql_ppx: Field id on type RngListItem is missing");
+                                          }
+                                          var match$3 = Js_dict.get(value$1, "title");
+                                          var tmp$1;
+                                          if (match$3 !== undefined) {
+                                            var value$3 = Caml_option.valFromOption(match$3);
+                                            var match$4 = Js_json.decodeString(value$3);
+                                            tmp$1 = match$4 !== undefined ? match$4 : Js_exn.raiseError("graphql_ppx: Expected string, got " + JSON.stringify(value$3));
+                                          } else {
+                                            tmp$1 = Js_exn.raiseError("graphql_ppx: Field title on type RngListItem is missing");
+                                          }
+                                          return {
+                                                  id: tmp,
+                                                  title: tmp$1
+                                                };
+                                        }
+                                      })) : Js_exn.raiseError("graphql_ppx: Field items on type RngList is missing")
+                            };
                     }
                   })) : Js_exn.raiseError("graphql_ppx: Field lists on type Query is missing")
         };
@@ -155,13 +140,14 @@ function App(Props) {
   } else {
     tmp = Belt_Array.map(simple[0].lists, (function (list) {
             if (list !== undefined) {
-              var match = list;
-              var title = match.title;
-              var id = match.id;
+              var vals = Caml_option.valFromOption(list);
+              var id = vals.id;
+              var items = vals.items;
+              var title = vals.title;
               var key = "rolltable-" + (String(id) + ("-" + (String(title) + "")));
               return React.createElement(RollTable$SocialDmTools.make, {
                           id: id,
-                          items: match.items,
+                          items: items,
                           title: title,
                           key: key
                         });
