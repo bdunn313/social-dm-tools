@@ -178,11 +178,15 @@ function AddRow(Props) {
   var match = ApolloHooks.useMutation(undefined, undefined, undefined, undefined, undefined, undefined, definition);
   var createMutation = match[0];
   var create = function (newTitle) {
-    Curry._6(createMutation, Caml_option.some(makeVariables(listId, newTitle, /* () */0)), undefined, undefined, undefined, undefined, /* () */0).then((function (result) {
-            console.log("mutation result", result);
-            return Promise.resolve(/* () */0);
-          }));
-    return /* () */0;
+    if (newTitle === "") {
+      return /* () */0;
+    } else {
+      Curry._6(createMutation, Caml_option.some(makeVariables(listId, newTitle, /* () */0)), undefined, undefined, undefined, undefined, /* () */0).then((function (result) {
+              console.log("mutation result", result);
+              return Promise.resolve(/* () */0);
+            }));
+      return /* () */0;
+    }
   };
   return React.createElement(RowInput$SocialDmTools.make, {
               onEdit: create,

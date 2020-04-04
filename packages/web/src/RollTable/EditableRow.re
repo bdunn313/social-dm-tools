@@ -53,15 +53,19 @@ let make = (~id, ~title="", ~selected) => {
     );
   let onEdit = newTitle => {
     setState(_ => Viewing);
-    updateMutation(
-      ~variables=UpdateMutation.makeVariables(~id, ~newTitle, ()),
-      (),
-    )
-    |> Js.Promise.then_(result => {
-         Js.log2("mutation result", result);
-         Js.Promise.resolve();
-       })
-    |> ignore;
+    switch (newTitle) {
+    | "" => ()
+    | x =>
+      updateMutation(
+        ~variables=UpdateMutation.makeVariables(~id, ~newTitle=x, ()),
+        (),
+      )
+      |> Js.Promise.then_(result => {
+           Js.log2("mutation result", result);
+           Js.Promise.resolve();
+         })
+      |> ignore
+    };
   };
   let onRemove = _ => removeMutation() |> ignore;
   switch (state) {
