@@ -319,11 +319,15 @@ function EditableRow(Props) {
     Curry._1(setState, (function (param) {
             return /* Viewing */0;
           }));
-    Curry._6(updateMutation, Caml_option.some(makeVariables(id, newTitle, /* () */0)), undefined, undefined, undefined, undefined, /* () */0).then((function (result) {
-            console.log("mutation result", result);
-            return Promise.resolve(/* () */0);
-          }));
-    return /* () */0;
+    if (newTitle === "") {
+      return /* () */0;
+    } else {
+      Curry._6(updateMutation, Caml_option.some(makeVariables(id, newTitle, /* () */0)), undefined, undefined, undefined, undefined, /* () */0).then((function (result) {
+              console.log("mutation result", result);
+              return Promise.resolve(/* () */0);
+            }));
+      return /* () */0;
+    }
   };
   var onRemove = function (param) {
     Curry._6(removeMutation, undefined, undefined, undefined, undefined, undefined, /* () */0);
