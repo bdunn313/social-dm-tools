@@ -13,9 +13,27 @@ module ListQuery = [%graphql
 |}
 ];
 
+module ListUpdated = [%graphql
+  {|
+  subscription ListUpdatedSubscription {
+    listUpdated {
+      id
+      title
+      items {
+        id
+        title
+      }
+    }
+  }
+|}
+];
+
 [@react.component]
 let make = () => {
-  let (simple, _full) = ApolloHooks.useQuery(ListQuery.definition);
+  let (lists, _full) = ApolloHooks.useQuery(ListQuery.definition);
+  let (_listUpdatedSubscription, _full) =
+    ApolloHooks.useSubscription(ListUpdated.definition);
+
   <main className="container mx-auto max-w-xl my-8">
     <header className="pb-1 px-3">
       <h1 className="text-blue-700 text-4xl">
@@ -23,7 +41,7 @@ let make = () => {
       </h1>
     </header>
     <div>
-      {switch (simple) {
+      {switch (lists) {
        | Loading => <div> {"Loading" |> ReasonReact.string} </div>
        | Error(error) =>
          Js.log(error);

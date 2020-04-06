@@ -11,6 +11,7 @@
   "scripts": {
     "start": "wsrun start",
     "start:bsb": "yarn workspace @social-dm-tools/web run start:bsb",
+    "build:schema": "yarn workspace @social-dm-tools/web run build:schema",
     "postinstall": "patch-package"
   },
   "devDependencies": {
