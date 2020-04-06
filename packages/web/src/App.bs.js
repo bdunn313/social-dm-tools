@@ -260,31 +260,15 @@ var ItemAddedSubscription = ReasonApollo.CreateSubscription({
 function App(Props) {
   var match = ApolloHooks.useQuery(undefined, undefined, undefined, undefined, undefined, undefined, undefined, definition);
   var lists = match[0];
-  var match$1 = ApolloHooks.useSubscription(undefined, undefined, definition$1);
-  var itemAddedSubscription = match$1[0];
+  ApolloHooks.useSubscription(undefined, undefined, definition$1);
   var tmp;
-  if (typeof itemAddedSubscription === "number") {
-    if (itemAddedSubscription === /* Loading */0) {
-      tmp = React.createElement("div", undefined, "Loading");
-    } else {
-      console.log("No Data!");
-      tmp = React.createElement("div", undefined, "No Data!");
-    }
-  } else if (itemAddedSubscription.tag) {
-    console.log("error", itemAddedSubscription[0]);
-    tmp = React.createElement("div", undefined, "Error");
-  } else {
-    console.log("data", itemAddedSubscription[0]);
-    tmp = React.createElement("div", undefined, "Data");
-  }
-  var tmp$1;
   if (typeof lists === "number") {
-    tmp$1 = lists === /* Loading */0 ? React.createElement("div", undefined, "Loading") : "Something really went wrong here!";
+    tmp = lists === /* Loading */0 ? React.createElement("div", undefined, "Loading") : "Something really went wrong here!";
   } else if (lists.tag) {
     console.log(lists[0]);
-    tmp$1 = "Something went wrong";
+    tmp = "Something went wrong";
   } else {
-    tmp$1 = Belt_Array.map(lists[0].lists, (function (list) {
+    tmp = Belt_Array.map(lists[0].lists, (function (list) {
             if (list !== undefined) {
               var vals = Caml_option.valFromOption(list);
               var id = vals.id;
@@ -302,13 +286,13 @@ function App(Props) {
             }
           }));
   }
-  return React.createElement(React.Fragment, undefined, tmp, React.createElement("main", {
-                  className: "container mx-auto max-w-xl my-8"
-                }, React.createElement("header", {
-                      className: "pb-1 px-3"
-                    }, React.createElement("h1", {
-                          className: "text-blue-700 text-4xl"
-                        }, "Social DM Tools!")), React.createElement("div", undefined, tmp$1)));
+  return React.createElement("main", {
+              className: "container mx-auto max-w-xl my-8"
+            }, React.createElement("header", {
+                  className: "pb-1 px-3"
+                }, React.createElement("h1", {
+                      className: "text-blue-700 text-4xl"
+                    }, "Social DM Tools!")), React.createElement("div", undefined, tmp));
 }
 
 var make$2 = App;
