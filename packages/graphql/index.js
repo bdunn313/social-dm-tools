@@ -15,10 +15,6 @@ const typeDefs = gql`
     items: [RngListItem]!
   }
 
-  type Subscription {
-    itemAdded: RngList
-  }
-
   type Query {
     lists: [RngList]!
   }
@@ -27,6 +23,10 @@ const typeDefs = gql`
     addItem(id: ID!, title: String!): RngList!
     updateItem(id: ID!, title: String!): RngListItem!
     removeItem(id: ID!): RngList!
+  }
+
+  type Subscription {
+    listUpdated: RngList
   }
 `;
 
@@ -51,7 +51,7 @@ let lists = [
   },
 ];
 
-const ITEM_ADDED = "ITEM_ADDED";
+const LIST_UPDATED = "LIST_UPDATED";
 
 // Resolvers define the technique for fetching the types defined in the
 // schema. This resolver retrieves books from the "books" array above.
@@ -72,21 +72,28 @@ const resolvers = {
         return x;
       });
       const newList = lists.find((x) => x.id === args.id);
-      await pubsub.publish(ITEM_ADDED, { itemAdded: newList });
+      pubsub.publish(LIST_UPDATED, { listUpdated: newList });
       return { ...newList };
     },
     updateItem: (_parent, args, _context, _info) => {
+      let subjectList = null;
       let subjectItem = null;
       lists = lists.map((x) => {
+        let flagged = false;
         const newItems = x.items.map((item) => {
           if (item.id === args.id) {
             subjectItem = { ...item, title: args.title };
+            flagged = true;
             return subjectItem;
           }
           return item;
         });
+        if (flagged) {
+          subjectList = { ...x, items: newItems };
+        }
         return { ...x, items: newItems };
       });
+      pubsub.publish(LIST_UPDATED, { listUpdated: subjectList });
       return subjectItem;
     },
     removeItem: (_parent, args, _context, _info) => {
@@ -101,12 +108,13 @@ const resolvers = {
         }
         return newList;
       });
+      pubsub.publish(LIST_UPDATED, { listUpdated: targetlist });
       return targetlist;
     },
   },
   Subscription: {
-    itemAdded: {
-      subscribe: () => pubsub.asyncIterator([ITEM_ADDED]),
+    listUpdated: {
+      subscribe: () => pubsub.asyncIterator([LIST_UPDATED]),
     },
   },
 };

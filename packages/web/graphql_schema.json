@@ -305,7 +305,7 @@
         "description": "",
         "fields": [
           {
-            "name": "itemAdded",
+            "name": "listUpdated",
             "description": "",
             "args": [],
             "type": {

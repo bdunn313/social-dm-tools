@@ -8,7 +8,6 @@ var Js_option = require("bs-platform/lib/js/js_option.js");
 var Belt_Array = require("bs-platform/lib/js/belt_Array.js");
 var ApolloHooks = require("reason-apollo-hooks/src/ApolloHooks.bs.js");
 var Caml_option = require("bs-platform/lib/js/caml_option.js");
-var ReasonApollo = require("reason-apollo/src/ReasonApollo.bs.js");
 var RollTable$SocialDmTools = require("./RollTable/RollTable.bs.js");
 
 var ppx_printed_query = "query AllRngListsQuery  {\nlists  {\nid  \ntitle  \nitems  {\nid  \ntitle  \n}\n\n}\n\n}\n";
@@ -129,11 +128,11 @@ var ListQuery = {
   MT_Ret: MT_Ret
 };
 
-var ppx_printed_query$1 = "subscription ItemAddedSubscription  {\nitemAdded  {\nid  \ntitle  \nitems  {\nid  \ntitle  \n}\n\n}\n\n}\n";
+var ppx_printed_query$1 = "subscription ListUpdatedSubscription  {\nlistUpdated  {\nid  \ntitle  \nitems  {\nid  \ntitle  \n}\n\n}\n\n}\n";
 
 function parse$1(value) {
   var value$1 = Js_option.getExn(Js_json.decodeObject(value));
-  var match = Js_dict.get(value$1, "itemAdded");
+  var match = Js_dict.get(value$1, "listUpdated");
   var tmp;
   if (match !== undefined) {
     var value$2 = Caml_option.valFromOption(match);
@@ -200,7 +199,7 @@ function parse$1(value) {
     tmp = undefined;
   }
   return {
-          itemAdded: tmp
+          listUpdated: tmp
         };
 }
 
@@ -240,7 +239,7 @@ function ret_type$1(f) {
 
 var MT_Ret$1 = { };
 
-var ItemAdded = {
+var ListUpdated = {
   ppx_printed_query: ppx_printed_query$1,
   query: ppx_printed_query$1,
   parse: parse$1,
@@ -251,11 +250,6 @@ var ItemAdded = {
   ret_type: ret_type$1,
   MT_Ret: MT_Ret$1
 };
-
-var ItemAddedSubscription = ReasonApollo.CreateSubscription({
-      query: ppx_printed_query$1,
-      parse: parse$1
-    });
 
 function App(Props) {
   var match = ApolloHooks.useQuery(undefined, undefined, undefined, undefined, undefined, undefined, undefined, definition);
@@ -298,7 +292,6 @@ function App(Props) {
 var make$2 = App;
 
 exports.ListQuery = ListQuery;
-exports.ItemAdded = ItemAdded;
-exports.ItemAddedSubscription = ItemAddedSubscription;
+exports.ListUpdated = ListUpdated;
 exports.make = make$2;
-/* ItemAddedSubscription Not a pure module */
+/* react Not a pure module */

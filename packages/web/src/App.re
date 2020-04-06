@@ -13,10 +13,10 @@ module ListQuery = [%graphql
 |}
 ];
 
-module ItemAdded = [%graphql
+module ListUpdated = [%graphql
   {|
-  subscription ItemAddedSubscription {
-    itemAdded {
+  subscription ListUpdatedSubscription {
+    listUpdated {
       id
       title
       items {
@@ -28,13 +28,11 @@ module ItemAdded = [%graphql
 |}
 ];
 
-module ItemAddedSubscription = ReasonApollo.CreateSubscription(ItemAdded);
-
 [@react.component]
 let make = () => {
   let (lists, _full) = ApolloHooks.useQuery(ListQuery.definition);
-  let (_itemAddedSubscription, _full) =
-    ApolloHooks.useSubscription(ItemAdded.definition);
+  let (_listUpdatedSubscription, _full) =
+    ApolloHooks.useSubscription(ListUpdated.definition);
 
   <main className="container mx-auto max-w-xl my-8">
     <header className="pb-1 px-3">
