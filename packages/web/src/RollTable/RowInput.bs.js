@@ -14,7 +14,7 @@ function RowInput(Props) {
   var setEditedVal = match[1];
   var editedVal = match[0];
   return React.createElement("input", {
-              className: "rounded border-gray-500 border px-2 py-1 w-full",
+              className: "rounded border-gray-500 border px-2 py-1 w-full mr-3",
               autoFocus: true,
               placeholder: "Add a new entry and hit 'enter'",
               type: "text",

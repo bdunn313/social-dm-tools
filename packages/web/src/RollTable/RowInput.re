@@ -5,7 +5,7 @@ let make = (~onEdit, ~onBlur, ~title) => {
   let resetInput = () => setEditedVal(_ => title);
 
   <input
-    className="rounded border-gray-500 border px-2 py-1 w-full"
+    className="rounded border-gray-500 border px-2 py-1 w-full mr-3"
     placeholder="Add a new entry and hit 'enter'"
     autoFocus=true
     type_="text"

@@ -8,6 +8,7 @@ var Js_json = require("bs-platform/lib/js/js_json.js");
 var Js_option = require("bs-platform/lib/js/js_option.js");
 var ApolloHooks = require("reason-apollo-hooks/src/ApolloHooks.bs.js");
 var Caml_option = require("bs-platform/lib/js/caml_option.js");
+var Button$SocialDmTools = require("../common/Button.bs.js");
 var RowInput$SocialDmTools = require("./RowInput.bs.js");
 
 var ppx_printed_query = "mutation UpdateMutation($id: ID!, $newTitle: String!)  {\nupdateItem(id: $id, title: $newTitle)  {\nid  \ntitle  \n}\n\n}\n";
@@ -288,14 +289,15 @@ function EditableRow$RowWrapper(Props) {
   var onDoubleClick = onDoubleClickOpt !== undefined ? onDoubleClickOpt : (function (param) {
         return /* () */0;
       });
-  var baseClasses = "ml-8 mr-2 py-2 px-1 flex flex-row";
-  var className = selected ? "ml-8 mr-2 py-2 px-1 flex flex-row bg-blue-300 text-blue-700" : baseClasses;
+  var baseClasses = "ml-8 mr-2 py-2 px-1 flex flex-row justify-between border-b-2 border-gray-200";
+  var className = selected ? "ml-8 mr-2 py-2 px-1 flex flex-row justify-between border-b-2 border-gray-200 bg-blue-300 text-blue-700" : baseClasses;
   return React.createElement("li", {
               className: className,
               onDoubleClick: onDoubleClick
-            }, React.createElement("div", undefined, children), React.createElement("button", {
-                  onClick: onRemove
-                }, "del"));
+            }, children, React.createElement(Button$SocialDmTools.make, {
+                  onClick: onRemove,
+                  children: "del"
+                }));
 }
 
 var RowWrapper = {

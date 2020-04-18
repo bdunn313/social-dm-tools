@@ -39,9 +39,9 @@ function RollTable(Props) {
           }
         }));
   return React.createElement("section", {
-              className: "flex flex-col bg-white rounded shadow-xl"
+              className: "flex flex-col bg-white rounded shadow-xl mb-6"
             }, React.createElement("header", {
-                  className: "bg-gray-600 text-gray-200 px-3 py-2 rounded-t"
+                  className: "bg-gray-600 text-gray-200 px-3 py-3 rounded-t"
                 }, React.createElement("h2", undefined, title)), React.createElement("div", {
                   className: "bg-gray-400 px-3 py-2"
                 }, React.createElement(AddRow$SocialDmTools.make, {
@@ -49,7 +49,7 @@ function RollTable(Props) {
                     })), React.createElement("ol", {
                   className: "list-decimal"
                 }, itemEls), React.createElement("button", {
-                  className: "p-4 bg-gray-800 hover:bg-gray-900 focus:outline-none focus:shadow-outline text-white",
+                  className: "p-4 bg-gray-800 hover:bg-gray-900 focus:outline-none focus:shadow-outline text-white rounded-b",
                   disabled: typeof rollState === "number" ? rollState === 0 : false,
                   onClick: (function (param) {
                       Curry._1(setRollState, (function (param) {
