@@ -52,14 +52,14 @@ let make = (~id, ~items, ~title) => {
     )
     |> ReasonReact.array;
 
-  <section className="flex flex-col bg-white rounded shadow-xl">
-    <header className="bg-gray-600 text-gray-200 px-3 py-2 rounded-t">
+  <section className="flex flex-col bg-white rounded shadow-xl mb-6">
+    <header className="bg-gray-600 text-gray-200 px-3 py-3 rounded-t">
       <h2> {title |> React.string} </h2>
     </header>
     <div className="bg-gray-400 px-3 py-2"> <AddRow listId=id /> </div>
     <ol className="list-decimal"> itemEls </ol>
     <button
-      className="p-4 bg-gray-800 hover:bg-gray-900 focus:outline-none focus:shadow-outline text-white"
+      className="p-4 bg-gray-800 hover:bg-gray-900 focus:outline-none focus:shadow-outline text-white rounded-b"
       disabled={
         switch (rollState) {
         | Rolling => true
