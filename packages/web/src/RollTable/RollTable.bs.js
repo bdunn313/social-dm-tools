@@ -23,21 +23,6 @@ function RollTable(Props) {
         }));
   var setRollState = match[1];
   var rollState = match[0];
-  var itemEls = Belt_Array.map(items, (function (maybeItem) {
-          if (maybeItem !== undefined) {
-            var item = Caml_option.valFromOption(maybeItem);
-            var id = item.id;
-            var title = item.title;
-            return React.createElement(EditableRow$SocialDmTools.make, {
-                        id: id,
-                        title: title,
-                        selected: typeof rollState === "number" ? false : Caml_obj.caml_equal(rollState[0], item),
-                        key: "row-" + (String(id) + ("-" + (String(title) + "")))
-                      });
-          } else {
-            return null;
-          }
-        }));
   return React.createElement("section", {
               className: "flex flex-col bg-white rounded shadow-xl mb-6"
             }, React.createElement("header", {
@@ -48,7 +33,21 @@ function RollTable(Props) {
                       listId: id
                     })), React.createElement("ol", {
                   className: "list-decimal"
-                }, itemEls), React.createElement("button", {
+                }, Belt_Array.map(items, (function (maybeItem) {
+                        if (maybeItem !== undefined) {
+                          var item = Caml_option.valFromOption(maybeItem);
+                          var id = item.id;
+                          var title = item.title;
+                          return React.createElement(EditableRow$SocialDmTools.make, {
+                                      id: id,
+                                      title: title,
+                                      selected: typeof rollState === "number" ? false : Caml_obj.caml_equal(rollState[0], item),
+                                      key: "row-" + (String(id) + ("-" + (String(title) + "")))
+                                    });
+                        } else {
+                          return null;
+                        }
+                      }))), React.createElement("button", {
                   className: "p-4 bg-gray-800 hover:bg-gray-900 focus:outline-none focus:shadow-outline text-white rounded-b",
                   disabled: typeof rollState === "number" ? rollState === 0 : false,
                   onClick: (function (param) {

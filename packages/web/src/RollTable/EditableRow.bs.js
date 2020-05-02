@@ -8,8 +8,8 @@ var Js_json = require("bs-platform/lib/js/js_json.js");
 var Js_option = require("bs-platform/lib/js/js_option.js");
 var ApolloHooks = require("reason-apollo-hooks/src/ApolloHooks.bs.js");
 var Caml_option = require("bs-platform/lib/js/caml_option.js");
-var Button$SocialDmTools = require("../common/Button.bs.js");
 var RowInput$SocialDmTools = require("./RowInput.bs.js");
+var RowWrapper$SocialDmTools = require("./RowWrapper.bs.js");
 
 var ppx_printed_query = "mutation UpdateMutation($id: ID!, $newTitle: String!)  {\nupdateItem(id: $id, title: $newTitle)  {\nid  \ntitle  \n}\n\n}\n";
 
@@ -281,29 +281,6 @@ var RemoveMutation = {
   MT_Ret: MT_Ret$1
 };
 
-function EditableRow$RowWrapper(Props) {
-  var onDoubleClickOpt = Props.onDoubleClick;
-  var onRemove = Props.onRemove;
-  var selected = Props.selected;
-  var children = Props.children;
-  var onDoubleClick = onDoubleClickOpt !== undefined ? onDoubleClickOpt : (function (param) {
-        return /* () */0;
-      });
-  var baseClasses = "ml-8 mr-2 py-2 px-1 flex flex-row justify-between border-b-2 border-gray-200";
-  var className = selected ? "ml-8 mr-2 py-2 px-1 flex flex-row justify-between border-b-2 border-gray-200 bg-blue-300 text-blue-700" : baseClasses;
-  return React.createElement("li", {
-              className: className,
-              onDoubleClick: onDoubleClick
-            }, children, React.createElement(Button$SocialDmTools.make, {
-                  onClick: onRemove,
-                  children: "del"
-                }));
-}
-
-var RowWrapper = {
-  make: EditableRow$RowWrapper
-};
-
 function EditableRow(Props) {
   var id = Props.id;
   var titleOpt = Props.title;
@@ -336,7 +313,7 @@ function EditableRow(Props) {
     return /* () */0;
   };
   if (match[0]) {
-    return React.createElement(EditableRow$RowWrapper, {
+    return React.createElement(RowWrapper$SocialDmTools.make, {
                 onRemove: onRemove,
                 selected: selected,
                 children: React.createElement(RowInput$SocialDmTools.make, {
@@ -347,7 +324,7 @@ function EditableRow(Props) {
               });
   } else {
     var borderColor = selected ? "border-blue-300" : "border-white";
-    return React.createElement(EditableRow$RowWrapper, {
+    return React.createElement(RowWrapper$SocialDmTools.make, {
                 onDoubleClick: (function (param) {
                     return Curry._1(setState, (function (param) {
                                   return /* Editing */1;
@@ -366,6 +343,5 @@ var make$2 = EditableRow;
 
 exports.UpdateMutation = UpdateMutation;
 exports.RemoveMutation = RemoveMutation;
-exports.RowWrapper = RowWrapper;
 exports.make = make$2;
 /* react Not a pure module */
